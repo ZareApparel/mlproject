@@ -1,0 +1,8 @@
+flask
+typing
+numpy
+scikit-learn
+seaborn
+pandas
+matplotlib
+-e .
