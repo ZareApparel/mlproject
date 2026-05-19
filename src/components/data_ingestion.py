@@ -5,6 +5,8 @@ from src.logger import logging #We are importing the function which we made in s
 from sklearn.model_selection import train_test_split
 import pandas as pd
 from dataclasses import dataclass
+from src.components.data_transformation import DataTransformation
+from src.components.data_transformation import DataTransformationConfig
 
 @dataclass
 class DataIngestionConfig: #Now this is DataIngestionConfig. Such configuration is made in all either Data Ingestion file or transformation file or model trainer file. In this configuration we basically tells what will be file path where our files would be stored. Like where will be our train_data file will be stored in whcih folder with which name, same for train_data and raw_data. Because ofcourse we will be storing these files in some place.  This class DataIngestionConfig does not need def __init__. Why? Because we have used a decorator pre defined in Python library called dataclasses which we imported. If we write this decorator before our class we don't need to write def __init__.  Now in this class we just write file_path. We don't do anything else. 
@@ -46,7 +48,15 @@ class DataIngestion: #Now this is another class we made called DataIngestion. He
 
 if __name__==('__main__'):#If we run this file
     obj=DataIngestion()  # Make an object called obj using DataIngestion class
-    obj.initiate_data_ingestion() #This class has function initiate_data_ingestion so call that function, what it will do, it will store train.csv inside artifacts folder, same for test.csv and raw data before making Artifacts folder and storing dtaa in df. 
+    # obj.initiate_data_ingestion() #This class has function initiate_data_ingestion so call that function, what it will do, it will store train.csv inside artifacts folder, same for test.csv and raw data before making Artifacts folder and storing dtaa in df. 
+
+    train_data, test_data=obj.initiate_data_ingestion() # This class has function initiate_data_ingestion so call that function, what it will do, it will store train.csv inside artifacts folder, same for test.csv. 
+
+    data_transformation=DataTransformation() # We are calling DataTransformation class here and making data_transformation through it
+    data_transformation.initiate_data_transformation(train_data, test_data)
+    # We are using a function inside DataTransformation class called initiate_data_transformation which will initiate data transformation on train and test data and return transformed train and test data as well path of preprocessor.pkl file.
+    
+
 
             
     
