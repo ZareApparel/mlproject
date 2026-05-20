@@ -7,6 +7,8 @@ import pandas as pd
 from dataclasses import dataclass
 from src.components.data_transformation import DataTransformation
 from src.components.data_transformation import DataTransformationConfig
+from src.components.model_trainer import ModelTrainerConfig
+from src.components.model_trainer import ModelTrainer
 
 @dataclass
 class DataIngestionConfig: #Now this is DataIngestionConfig. Such configuration is made in all either Data Ingestion file or transformation file or model trainer file. In this configuration we basically tells what will be file path where our files would be stored. Like where will be our train_data file will be stored in whcih folder with which name, same for train_data and raw_data. Because ofcourse we will be storing these files in some place.  This class DataIngestionConfig does not need def __init__. Why? Because we have used a decorator pre defined in Python library called dataclasses which we imported. If we write this decorator before our class we don't need to write def __init__.  Now in this class we just write file_path. We don't do anything else. 
@@ -53,10 +55,14 @@ if __name__==('__main__'):#If we run this file
     train_data, test_data=obj.initiate_data_ingestion() # This class has function initiate_data_ingestion so call that function, what it will do, it will store train.csv inside artifacts folder, same for test.csv. 
 
     data_transformation=DataTransformation() # We are calling DataTransformation class here and making data_transformation through it
-    data_transformation.initiate_data_transformation(train_data, test_data)
+    # data_transformation.initiate_data_transformation(train_data, test_data)
     # We are using a function inside DataTransformation class called initiate_data_transformation which will initiate data transformation on train and test data and return transformed train and test data as well path of preprocessor.pkl file.
     
+    train_arr, test_arr, _ = data_transformation.initiate_data_transformation(train_data, test_data) #This transforms our train_data, test_data and store transformed train_data, and test_data at train_arr, test_arr. 
 
+    model_trainer=ModelTrainer() # Making an object of ModelTrainer()
+    print(model_trainer.initiate_model_trainer(train_arr, test_arr))
+    #Initiating model_trainer and printing it to find best r2_score of best_model.
 
             
     
