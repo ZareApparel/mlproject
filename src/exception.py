@@ -8,6 +8,7 @@ def er(error, error_detail:sys): #Here we made an er function where we give erro
     #In this file_name var exact file_name of where error happened will be stored.
     m="Error occured in Python script [{0}] line number [{1}] message [{2}]".format(file_name, exc_tb.tb_lineno, str(error))
     # Now in m var which is a message shows message that error happened in 3 empty slots and we will fill it with .format(in 1st one file.name, comes etc....)
+    return m
 
 
 class CustomException(Exception):

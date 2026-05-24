@@ -49,7 +49,52 @@ class ModelTrainer:
                 "CatBoosting Classifier": CatBoostRegressor(verbose=False),
                 "AdaBoost Classifier": AdaBoostRegressor(),
 }
-            model_report:dict=evaluate_models(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, models=models) #Here we are making a variable called model_report in dictionary form and in that model_report we will call function evaluate_models which is in utils and we initially imported it. evaluate_models will require, X_train, y_train, X_test, y_test and models dictionary which will have all of our models in models dictioary. For example, "Random Forest": RandomForestRegressor(), "Decision Tree": DecisionTreeRegressor(), etc.... Now, result of evaluate_models will be stored in model_report. Result of evaluate_models would be like, "Random Forest": some numerical value as r2 score of this specific model, same for every other model. Evaluate Models function will use predicted output of that model on testing data and y_test for finding r2 score and from all models' r2 score we will see which model has best r2 score and that model's name (Found through model_report keys ) as keys = name, and value= r2 score. We will use that model as our best model.
+            
+            
+
+
+            params={ #These are our parameters. Trying with different parameters and choosing best ones improve accuracy of our model. Here, in params dictionary name of each model is given then its parameters. 
+                
+                "Decision Tree": {
+                    'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
+                    # 'splitter':['best','random'],
+                    # 'max_features':['sqrt','log2'],
+                },
+                "Random Forest":{
+                    # 'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
+                    # 'max_features':['sqrt','log2',None],
+                    'n_estimators': [8,16,32,64,128,256]
+                },
+                "Gradient Boosting":{
+                    # 'loss':['squared_error', 'huber', 'absolute_error', 'quantile'],
+                    'learning_rate':[.1,.01,.05,.001],
+                    'subsample':[0.6,0.7,0.75,0.8,0.85,0.9],
+                    # 'criterion':['squared_error', 'friedman_mse'],
+                    # 'max_features':['auto','sqrt','log2'],
+                    'n_estimators': [8,16,32,64,128,256]
+                },
+                "Linear Regression":{},
+                "K-Neighbour Regressor":{
+                    'n_neighbors': [5,7,9,11],
+                    # 'weights':['uniform','distance'],
+                    # 'algorithm':['ball_tree','kd_tree','brute']
+                },
+                "XGBRegressor":{
+                    'learning_rate':[.1,.01,.05,.001],
+                    'n_estimators': [8,16,32,64,128,256]
+                },
+                "CatBoosting Regressor":{
+                    'depth': [6,8,10],
+                    'learning_rate': [0.01, 0.05, 0.1],
+                    'iterations': [30, 50, 100]
+                },
+                "AdaBoost Regressor":{
+                    'learning_rate':[.1,.01,0.5,.001],
+                    # 'loss':['linear','square','exponential'],
+                    'n_estimators': [8,16,32,64,128,256]
+                }
+}
+            model_report:dict=evaluate_models(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, models=models, param=params) #Here we are making a variable called model_report in dictionary form and in that model_report we will call function evaluate_models which is in utils and we initially imported it. evaluate_models will require, X_train, y_train, X_test, y_test and models dictionary which will have all of our models in models dictioary. For example, "Random Forest": RandomForestRegressor(), "Decision Tree": DecisionTreeRegressor(), etc.... Now, result of evaluate_models will be stored in model_report. Result of evaluate_models would be like, "Random Forest": some numerical value as r2 score of this specific model, same for every other model. Evaluate Models function will use predicted output of that model on testing data and y_test for finding r2 score and from all models' r2 score we will see which model has best r2 score and that model's name (Found through model_report keys ) as keys = name, and value= r2 score. We will use that model as our best model.
 
             best_model_score=max(sorted(model_report.values()))
             #First we will get result of model_report as model1: r2_score1, model2: r2_score2, model3: r2_score3, etc.. where in model1, model2, model3, etc... there would be names of models, like RandomBoost, etc.. and in model_report.keys, like r2score1, etc.. there would be there r2 scores. So best_model_score will do what it will first model_report_values() means r2_score1, r2score2, etc.. then it will find max value among them and store them in best_model_score. 
