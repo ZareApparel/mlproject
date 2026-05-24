@@ -1,8 +1,11 @@
-flask
 typing
 numpy
 scikit-learn
 seaborn
 pandas
 matplotlib
--e .
+dill
+xgboost
+catboost
+Flask
+# -e .
