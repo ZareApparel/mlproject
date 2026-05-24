@@ -1,11 +1,10 @@
-typing
+flask
 numpy
 scikit-learn
 seaborn
 pandas
 matplotlib
-dill
+dill==0.3.8
 xgboost
 catboost
-Flask
-# -e .
+gunicorn
